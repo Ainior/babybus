@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Model\Comments;
 use App\Model\Post;
 use App\Model\User;
+use App\Scopes\CommentStatusAtScope;
 
 class UserController extends BaseController
 {
@@ -14,6 +16,14 @@ class UserController extends BaseController
         $user_id = 1;
         $posts = Post::with('user')->where('user_id', $user_id)->get();
         return $posts;
+    }
+
+    // 用户的评论列表
+    public function comment_list()
+    {
+        $user_id = 1;
+        $user = User::findOrFail($user_id);
+        return $user->comments;
     }
 
     public function info($id)

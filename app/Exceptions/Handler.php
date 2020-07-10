@@ -51,14 +51,14 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         //对详细的错误信息，进行记录，但是不返回给前端
-        Log::debug(parent::render($request, $exception));
-        if ($exception instanceof HOException) {
-            $msg = $exception->getMessage();
-        } else {
-            $msg = 'Server Bad';
-        }
-
-        return response()->horesp($exception->getCode(), null, $msg);
+//        Log::debug(parent::render($request, $exception));
+//        if ($exception instanceof HOException) {
+//            $msg = $exception->getMessage();
+//        } else {
+//            $msg = 'Server Bad';
+//        }
+//
+//        return response()->horesp($exception->getCode(), null, $msg);
 
         return parent::render($request, $exception);
     }

@@ -24,6 +24,7 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('user')->group(function () {
     Route::get('post/list', 'UserController@post_list');
+    Route::get('comment/list', 'UserController@comment_list');
 
     Route::get('info/{id}', 'UserController@info');
     Route::post('create', 'UserController@create');
@@ -33,7 +34,9 @@ Route::prefix('user')->group(function () {
 Route::prefix('post')->group(function () {
     Route::post('like', 'PostController@like');
     Route::get('like/list', 'PostController@like_list');
+    Route::get('comment/list', 'PostController@comment_list');
 
+    Route::get('list', 'PostController@list');
     Route::get('info/{id}', 'PostController@info');
     Route::post('create', 'PostController@create');
     Route::delete('delete/{id}', 'PostController@delete');

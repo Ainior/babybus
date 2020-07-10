@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Model\Comments;
 use App\Model\Like;
 use App\Model\Post;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -27,6 +29,20 @@ class PostController extends Controller
         $post_id = 1;
         $post = Post::findOrFail($post_id);
         return $post->likes;
+    }
+
+    // 帖子的评论列表
+    public function comment_list()
+    {
+        $post_id = 1;
+        $post = Post::findOrFail($post_id);
+        return $post->comments;
+    }
+
+    public function list()
+    {
+        $posts = Post::all();
+        return $posts;
     }
 
     public function info($id)
@@ -59,5 +75,27 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         return $post->delete();
+    }
+
+    public static function comment($data)
+    {
+        $validator = Validator::make($data, [
+            'post_id' => 'required|exists:App\Model\Post,id',
+            'user_id' => 'required|exists:users,id',
+            'content' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            echo $errors->first();
+        } else {
+            $comment = new Comments();
+            $comment->fill($data);
+            if ($comment->save()) {
+                echo 'success:' . $data['content'];
+            } else {
+                echo 'comments fail!';
+            }
+        }
     }
 }
