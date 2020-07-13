@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
-use App\Model\Comments;
 use App\Model\Post;
 use App\Model\User;
-use App\Scopes\CommentStatusAtScope;
 
 class UserController extends BaseController
 {

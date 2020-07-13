@@ -34,12 +34,12 @@ class BaseController extends Controller
         $this->error = new HOError();
         return $this->error;
 
-        $result = [
-            "code" => $code,
-            "msg" => $msg,
-            "data" => $data,
-        ];
-        return response()->json($result, 200);
+//        $result = [
+//            "code" => $code,
+//            "msg" => $msg,
+//            "data" => $data,
+//        ];
+//        return response()->json($result, 200);
     }
 
     // 如果返回的数据中有 null 则那其值修改为空 （安卓和IOS 对null型的数据不友好，会报错）

@@ -17,7 +17,7 @@ class User extends Model
 
     public function comments()
     {
-        return $this->hasMany('App\Model\Comments')->withoutGlobalScope(CommentStatusAtScope::class);
+        return $this->hasMany('App\Model\Comments');// withoutGlobalScope(CommentStatusAtScope::class)->
     }
 
 }

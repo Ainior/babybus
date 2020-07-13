@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use App\Scopes\CommentStatusAtScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -20,7 +19,7 @@ class Post extends Model
         static::deleted(function ($post) {
             // 删除帖子后删除对应的点赞和评论
             Like::where('post_id', $post->id)->delete();
-            Comments::withoutGlobalScope(CommentStatusAtScope::class)->where('post_id', $post->id)->delete();
+            Comments::where('post_id', $post->id)->delete();
         });
     }
 
@@ -39,7 +38,7 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany('App\Model\Comments');
+        return $this->hasMany('App\Model\Comments')->statusPass();
     }
 
 }

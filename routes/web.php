@@ -1,6 +1,7 @@
 <?php
 
 use App\Model\Comments;
+use App\Model\Department;
 use Illuminate\Support\Facades\Route;
 use App\User;
 
@@ -16,6 +17,10 @@ use App\User;
 */
 
 Route::get('/', function () {
+
+    $posts = Department::findOrFail(2);
+    dd($posts->comments->toArray());
+
 //    dd(Comments::where('post_id', 1)->get());
     $res = \App\Model\Post::first();//->toArray();
     dump($res->comment_number);

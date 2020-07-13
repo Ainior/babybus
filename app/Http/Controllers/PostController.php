@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
-use App\Model\Comments;
+use App\Model\Department;
 use App\Model\Like;
 use App\Model\Post;
-use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
     // 点赞帖子
-    public function like()
+    public function like($post_id)
     {
-        $like = Like::firstOrNew(['user_id' => 5, 'post_id' => 1]);
+        $like = Like::firstOrNew(['user_id' => 5, 'post_id' => $post_id]);
         if (isset($like->id)) {
             return false;
         } else {
@@ -24,9 +23,8 @@ class PostController extends Controller
     }
 
     // 帖子的点赞用户列表
-    public function like_list()
+    public function like_list($post_id)
     {
-        $post_id = 1;
         $post = Post::findOrFail($post_id);
         return $post->likes;
     }
@@ -43,6 +41,12 @@ class PostController extends Controller
     {
         $posts = Post::all();
         return $posts;
+    }
+
+    public function list_by_dept($dept_id)
+    {
+        $posts = Department::findOrFail($dept_id);
+        return $posts->comments->toArray();
     }
 
     public function info($id)
@@ -75,27 +79,5 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         return $post->delete();
-    }
-
-    public static function comment($data)
-    {
-        $validator = Validator::make($data, [
-            'post_id' => 'required|exists:App\Model\Post,id',
-            'user_id' => 'required|exists:users,id',
-            'content' => 'required|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-            echo $errors->first();
-        } else {
-            $comment = new Comments();
-            $comment->fill($data);
-            if ($comment->save()) {
-                echo 'success:' . $data['content'];
-            } else {
-                echo 'comments fail!';
-            }
-        }
     }
 }

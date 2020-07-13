@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\PostController;
+use App\Model\Comments;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Validator;
 
 class CommentPost extends Command
 {
@@ -43,6 +44,24 @@ class CommentPost extends Command
             'user_id' => $this->argument('user_id'),
             'content' => $this->argument('content'),
         ];
-        PostController::comment($data);
+
+        $validator = Validator::make($data, [
+            'post_id' => 'required|exists:App\Model\Post,id',
+            'user_id' => 'required|exists:users,id',
+            'content' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            echo $errors->first();
+        } else {
+            $comment = new Comments();
+            $comment->fill($data);
+            if ($comment->save()) {
+                echo 'success:' . $data['content'];
+            } else {
+                echo 'comments fail!';
+            }
+        }
     }
 }
