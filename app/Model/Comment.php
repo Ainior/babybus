@@ -6,7 +6,7 @@ use App\Scopes\CommentStatusAtScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class Comments extends Model
+class Comment extends Model
 {
     public const STATUS_UNAUDITED = 0;
     public const STATUS_PASS = 1;
@@ -20,12 +20,12 @@ class Comments extends Model
         parent::boot();
 //        static::addGlobalScope(new CommentStatusAtScope());
 //        static::addGlobalScope('comment_status_at_scope', function (Builder $builder) {
-//          return $builder->where('status','=', Comments::STATUS_PASS);
+//          return $builder->where('status','=', Comment::STATUS_PASS);
 //        });
     }
     public function scopeStatusPass(Builder $query)
     {
-        return $query->where('status','=', Comments::STATUS_PASS);
+        return $query->where('status','=', Comment::STATUS_PASS);
     }
 
 }

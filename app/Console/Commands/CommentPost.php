@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Model\Comments;
+use App\Model\Comment;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,7 +20,7 @@ class CommentPost extends Command
      *
      * @var string
      */
-    protected $description = 'Comments post';
+    protected $description = 'Comment post';
 
     /**
      * Create a new command instance.
@@ -55,7 +55,7 @@ class CommentPost extends Command
             $errors = $validator->errors();
             echo $errors->first();
         } else {
-            $comment = new Comments();
+            $comment = new Comment();
             $comment->fill($data);
             if ($comment->save()) {
                 echo 'success:' . $data['content'];

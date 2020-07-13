@@ -15,7 +15,7 @@ class Department extends Model
     public function comments()
     {
         return $this->hasManyThrough(
-            'App\Model\Comments',
+            'App\Model\Comment',
             'App\Model\User',
             'dept_id', // 部门表外键...
             'user_id', // 用户表外键...

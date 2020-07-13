@@ -18,14 +18,14 @@ class Post extends Model
     {
         static::deleted(function ($post) {
             // 删除帖子后删除对应的点赞和评论
-            Like::where('post_id', $post->id)->delete();
-            Comments::where('post_id', $post->id)->delete();
+            $post->likes()->delete();
+            $post->comments()->delete();
         });
     }
 
     public function getCommentNumberAttribute()
     {
-        return Comments::where('post_id', $this->id)->get()->count();
+        return $this->comments()->count();
     }
 
     public function user(){
@@ -33,12 +33,16 @@ class Post extends Model
     }
 
     public function likes(){
+        return $this->hasMany(Like::class, 'post_id', 'id');
+    }
+
+    public function like_user_list(){
         return $this->belongsToMany(User::class,'likes','post_id','user_id');
     }
 
     public function comments()
     {
-        return $this->hasMany('App\Model\Comments')->statusPass();
+        return $this->hasMany('App\Model\Comment')->statusPass();
     }
 
 }

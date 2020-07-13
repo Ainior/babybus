@@ -26,7 +26,7 @@ class PostController extends Controller
     public function like_list($post_id)
     {
         $post = Post::findOrFail($post_id);
-        return $post->likes;
+        return $post->like_user_list;
     }
 
     // 帖子的评论列表
